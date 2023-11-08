@@ -8,8 +8,8 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/filter.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -26,7 +26,6 @@
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
-        <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -34,13 +33,11 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="js/tailDT.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/wNumb.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/Konkurencija_vetar_3.js"></script>
-        <script src="data/digi_objects_linestring_4.js"></script>
-        <script src="data/pSCIs_5.js"></script>
+        <script src="data/PowerLines_4.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -49,7 +46,7 @@
         }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[43.83027500126478,20.775029055181324],[44.86340864451558,23.49634611282594]]);
+        }).fitBounds([[43.82803208692089,18.84996377769095],[45.909505974283164,24.599408952702674]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -80,18 +77,10 @@
             maxNativeZoom: 20
         });
         layer_GoogleSatellite_0;
-        map.createPane('pane_SRB_windspeed_150m_1');
-        map.getPane('pane_SRB_windspeed_150m_1').style.zIndex = 401;
-        var img_SRB_windspeed_150m_1 = 'data/SRB_windspeed_150m_1.png';
-        var img_bounds_SRB_windspeed_150m_1 = [[42.23326874773525,18.84907268219453],[46.19076874773545,23.006572682194737]];
-        var layer_SRB_windspeed_150m_1 = new L.imageOverlay(img_SRB_windspeed_150m_1,
-                                              img_bounds_SRB_windspeed_150m_1,
-                                              {pane: 'pane_SRB_windspeed_150m_1'});
-        bounds_group.addLayer(layer_SRB_windspeed_150m_1);
-        map.createPane('pane_Positronnolabels_2');
-        map.getPane('pane_Positronnolabels_2').style.zIndex = 402;
-        var layer_Positronnolabels_2 = L.tileLayer('https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-            pane: 'pane_Positronnolabels_2',
+        map.createPane('pane_Positronnolabels_1');
+        map.getPane('pane_Positronnolabels_1').style.zIndex = 401;
+        var layer_Positronnolabels_1 = L.tileLayer('https://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            pane: 'pane_Positronnolabels_1',
             opacity: 1.0,
             attribution: '<a href="https://cartodb.com/basemaps/">Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</a>',
             minZoom: 1,
@@ -99,8 +88,16 @@
             minNativeZoom: 0,
             maxNativeZoom: 20
         });
-        layer_Positronnolabels_2;
-        map.addLayer(layer_Positronnolabels_2);
+        layer_Positronnolabels_1;
+        map.addLayer(layer_Positronnolabels_1);
+        map.createPane('pane_Resourcemap150m_2');
+        map.getPane('pane_Resourcemap150m_2').style.zIndex = 402;
+        var img_Resourcemap150m_2 = 'data/Resourcemap150m_2.png';
+        var img_bounds_Resourcemap150m_2 = [[42.23326874773525,18.84907268219453],[46.19076874773545,23.006572682194737]];
+        var layer_Resourcemap150m_2 = new L.imageOverlay(img_Resourcemap150m_2,
+                                              img_bounds_Resourcemap150m_2,
+                                              {pane: 'pane_Resourcemap150m_2'});
+        bounds_group.addLayer(layer_Resourcemap150m_2);
         function pop_Konkurencija_vetar_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -119,25 +116,32 @@
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Opština'] !== null ? autolinker.link(feature.properties['Opština'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Opština</th>\
+                        <td>' + (feature.properties['Opština'] !== null ? autolinker.link(feature.properties['Opština'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Snaga [MW]'] !== null ? autolinker.link(feature.properties['Snaga [MW]'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Snaga [MW]</th>\
+                        <td>' + (feature.properties['Snaga [MW]'] !== null ? autolinker.link(feature.properties['Snaga [MW]'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Broj turb.'] !== null ? autolinker.link(feature.properties['Broj turb.'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Broj turb.</th>\
+                        <td>' + (feature.properties['Broj turb.'] !== null ? autolinker.link(feature.properties['Broj turb.'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['OHL [kV]'] !== null ? autolinker.link(feature.properties['OHL [kV]'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">OHL [kV]</th>\
+                        <td>' + (feature.properties['OHL [kV]'] !== null ? autolinker.link(feature.properties['OHL [kV]'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Investitor'] !== null ? autolinker.link(feature.properties['Investitor'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Investitor</th>\
+                        <td>' + (feature.properties['Investitor'] !== null ? autolinker.link(feature.properties['Investitor'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Status</th>\
+                        <td>' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -296,7 +300,7 @@
         });
         bounds_group.addLayer(layer_Konkurencija_vetar_3);
         map.addLayer(layer_Konkurencija_vetar_3);
-        function pop_digi_objects_linestring_4(feature, layer) {
+        function pop_PowerLines_4(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -311,7 +315,8 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['category'] !== null ? autolinker.link(feature.properties['category'].toLocaleString()) : '') + '</td>\
@@ -320,11 +325,11 @@
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_digi_objects_linestring_4_0(feature) {
+        function style_PowerLines_4_0(feature) {
             switch(String(feature.properties['category'])) {
                 case '110kV':
                     return {
-                pane: 'pane_digi_objects_linestring_4',
+                pane: 'pane_PowerLines_4',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -337,7 +342,7 @@
                     break;
                 case '220kV':
                     return {
-                pane: 'pane_digi_objects_linestring_4',
+                pane: 'pane_PowerLines_4',
                 opacity: 1,
                 color: 'rgba(49,236,55,1.0)',
                 dashArray: '',
@@ -350,7 +355,7 @@
                     break;
                 case '400kV':
                     return {
-                pane: 'pane_digi_objects_linestring_4',
+                pane: 'pane_PowerLines_4',
                 opacity: 1,
                 color: 'rgba(227,26,28,1.0)',
                 dashArray: '',
@@ -363,7 +368,7 @@
                     break;
                 default:
                     return {
-                pane: 'pane_digi_objects_linestring_4',
+                pane: 'pane_PowerLines_4',
                 opacity: 1,
                 color: 'rgba(201,139,72,1.0)',
                 dashArray: '',
@@ -376,396 +381,40 @@
                     break;
             }
         }
-        map.createPane('pane_digi_objects_linestring_4');
-        map.getPane('pane_digi_objects_linestring_4').style.zIndex = 404;
-        map.getPane('pane_digi_objects_linestring_4').style['mix-blend-mode'] = 'normal';
-        var layer_digi_objects_linestring_4 = new L.geoJson(json_digi_objects_linestring_4, {
+        map.createPane('pane_PowerLines_4');
+        map.getPane('pane_PowerLines_4').style.zIndex = 404;
+        map.getPane('pane_PowerLines_4').style['mix-blend-mode'] = 'normal';
+        var layer_PowerLines_4 = new L.geoJson(json_PowerLines_4, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_digi_objects_linestring_4',
-            layerName: 'layer_digi_objects_linestring_4',
-            pane: 'pane_digi_objects_linestring_4',
-            onEachFeature: pop_digi_objects_linestring_4,
-            style: style_digi_objects_linestring_4_0,
+            dataVar: 'json_PowerLines_4',
+            layerName: 'layer_PowerLines_4',
+            pane: 'pane_PowerLines_4',
+            onEachFeature: pop_PowerLines_4,
+            style: style_PowerLines_4_0,
         });
-        bounds_group.addLayer(layer_digi_objects_linestring_4);
-        map.addLayer(layer_digi_objects_linestring_4);
-        function pop_pSCIs_5(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Area_ha'] !== null ? autolinker.link(feature.properties['Area_ha'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Name_site'] !== null ? autolinker.link(feature.properties['Name_site'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Cat_PA'] !== null ? autolinker.link(feature.properties['Cat_PA'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['En_P'] !== null ? autolinker.link(feature.properties['En_P'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['BGR'] !== null ? autolinker.link(feature.properties['BGR'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['x'] !== null ? autolinker.link(feature.properties['x'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['y'] !== null ? autolinker.link(feature.properties['y'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        var pattern_pSCIs_5_0 = new L.StripePattern({
-            weight: 0.3,
-            spaceWeight: 2.0,
-            color: '#e31a1c',
-            opacity: 0.4,
-            spaceOpacity: 0,
-            angle: 315
-        });
-        pattern_pSCIs_5_0.addTo(map);
-        function style_pSCIs_5_0() {
-            return {
-                pane: 'pane_pSCIs_5',
-                stroke: false,
-                fillOpacity: 1,
-                fillPattern: pattern_pSCIs_5_0,
-                interactive: true,
-            }
-        }
-        var pattern_pSCIs_5_1 = new L.StripePattern({
-            weight: 0.3,
-            spaceWeight: 2.0,
-            color: '#e31a1c',
-            opacity: 0.4,
-            spaceOpacity: 0,
-            angle: 225
-        });
-        pattern_pSCIs_5_1.addTo(map);
-        function style_pSCIs_5_1() {
-            return {
-                pane: 'pane_pSCIs_5',
-                stroke: false,
-                fillOpacity: 1,
-                fillPattern: pattern_pSCIs_5_1,
-                interactive: true,
-            }
-        }
-        function style_pSCIs_5_2() {
-            return {
-                pane: 'pane_pSCIs_5',
-                opacity: 1,
-                color: 'rgba(227,26,28,0.4)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 2.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-        }
-        map.createPane('pane_pSCIs_5');
-        map.getPane('pane_pSCIs_5').style.zIndex = 405;
-        map.getPane('pane_pSCIs_5').style['mix-blend-mode'] = 'normal';
-        var layer_pSCIs_5 = new L.geoJson.multiStyle(json_pSCIs_5, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_pSCIs_5',
-            layerName: 'layer_pSCIs_5',
-            pane: 'pane_pSCIs_5',
-            onEachFeature: pop_pSCIs_5,
-            styles: [style_pSCIs_5_0,style_pSCIs_5_1,style_pSCIs_5_2,]
-        });
-        bounds_group.addLayer(layer_pSCIs_5);
-        map.addLayer(layer_pSCIs_5);
+        bounds_group.addLayer(layer_PowerLines_4);
+        map.addLayer(layer_PowerLines_4);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/pSCIs_5.png" /> pSCIs': layer_pSCIs_5,'digi_objects_linestring<br /><table><tr><td style="text-align: center;"><img src="legend/digi_objects_linestring_4_110kV0.png" /></td><td>110kV</td></tr><tr><td style="text-align: center;"><img src="legend/digi_objects_linestring_4_220kV1.png" /></td><td>220kV</td></tr><tr><td style="text-align: center;"><img src="legend/digi_objects_linestring_4_400kV2.png" /></td><td>400kV</td></tr><tr><td style="text-align: center;"><img src="legend/digi_objects_linestring_4_3.png" /></td><td></td></tr></table>': layer_digi_objects_linestring_4,'Konkurencija_vetar<br /><table><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Earlydevelopment0.png" /></td><td>Early development</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_IzradaPDRa1.png" /></td><td>Izrada PDR-a</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_RJUPDR2.png" /></td><td>RJU PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_JUPDR3.png" /></td><td>JU PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_UsvojenPDR4.png" /></td><td>Usvojen PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Građevinskadozvola5.png" /></td><td>Građevinska dozvola</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Izgradnja6.png" /></td><td>Izgradnja</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Upogonu7.png" /></td><td>U pogonu</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_8.png" /></td><td></td></tr></table>': layer_Konkurencija_vetar_3,"Positron [no labels]": layer_Positronnolabels_2,"SRB_wind-speed_150m": layer_SRB_windspeed_150m_1,"Google Satellite": layer_GoogleSatellite_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'Power Lines<br /><table><tr><td style="text-align: center;"><img src="legend/PowerLines_4_110kV0.png" /></td><td>110kV</td></tr><tr><td style="text-align: center;"><img src="legend/PowerLines_4_220kV1.png" /></td><td>220kV</td></tr><tr><td style="text-align: center;"><img src="legend/PowerLines_4_400kV2.png" /></td><td>400kV</td></tr><tr><td style="text-align: center;"><img src="legend/PowerLines_4_3.png" /></td><td></td></tr></table>': layer_PowerLines_4,'Konkurencija_vetar<br /><table><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Earlydevelopment0.png" /></td><td>Early development</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_IzradaPDRa1.png" /></td><td>Izrada PDR-a</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_RJUPDR2.png" /></td><td>RJU PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_JUPDR3.png" /></td><td>JU PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_UsvojenPDR4.png" /></td><td>Usvojen PDR</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Građevinskadozvola5.png" /></td><td>Građevinska dozvola</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Izgradnja6.png" /></td><td>Izgradnja</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_Upogonu7.png" /></td><td>U pogonu</td></tr><tr><td style="text-align: center;"><img src="legend/Konkurencija_vetar_3_8.png" /></td><td></td></tr></table>': layer_Konkurencija_vetar_3,"Resource map @150m": layer_Resourcemap150m_2,"Positron [no labels]": layer_Positronnolabels_1,"Google Satellite": layer_GoogleSatellite_0,},{collapsed:false}).addTo(map);
         setBounds();
-        var mapDiv = document.getElementById('map');
-        var row = document.createElement('div');
-        row.className="row";
-        row.id="all";
-        row.style.height = "100%";
-        var col1 = document.createElement('div');
-        col1.className="col9";
-        col1.id = "mapWindow";
-        col1.style.height = "99%";
-        col1.style.width = "80%";
-        col1.style.display = "inline-block";
-        var col2 = document.createElement('div');
-        col2.className="col3";
-        col2.id = "menu";
-        col2.style.display = "inline-block";
-        mapDiv.parentNode.insertBefore(row, mapDiv);
-        document.getElementById("all").appendChild(col1);
-        document.getElementById("all").appendChild(col2);
-        col1.appendChild(mapDiv)
-        var Filters = {"Snaga [MW]": "int","category": "str","Status": "str","Investitor": "str"};
-        function filterFunc() {
-          map.eachLayer(function(lyr){
-          if ("options" in lyr && "dataVar" in lyr["options"]){
-            features = this[lyr["options"]["dataVar"]].features.slice(0);
-            try{
-              for (key in Filters){
-                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-                if (Filters[key] == "str" || Filters[key] == "bool"){
-                  var selection = [];
-                  var options = document.getElementById("sel_" + keyS).options
-                  for (var i=0; i < options.length; i++) {
-                    if (options[i].selected) selection.push(options[i].value);
-                  }
-                    try{
-                      if (key in features[0].properties){
-                        for (i = features.length - 1;
-                          i >= 0; --i){
-                          if (selection.indexOf(
-                          features[i].properties[key])<0
-                          && selection.length>0) {
-                          features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                  }
-                }
-                if (Filters[key] == "int"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (parseInt(features[i].properties[key])
-                          < sliderVals[0]
-                          || parseInt(features[i].properties[key])
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "real"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (features[i].properties[key]
-                          < sliderVals[0]
-                          || features[i].properties[key]
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "date"
-                  || Filters[key] == "datetime"
-                  || Filters[key] == "time"){
-                  try{
-                    if (key in features[0].properties){
-                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                      startdate = document.getElementById("dat_" +
-                        HTMLkey + "_date1").value.replace(" ", "T");
-                      enddate = document.getElementById("dat_" +
-                        HTMLkey + "_date2").value.replace(" ", "T");
-                      for (i = features.length - 1; i >= 0; --i){
-                        if (features[i].properties[key] < startdate
-                          || features[i].properties[key] > enddate){
-                          features.splice(i,1);
-                        }
-                      }
-                    }
-                  } catch(err){
-                  }
-                }
-              }
-            } catch(err){
-            }
-          this[lyr["options"]["layerName"]].clearLayers();
-          this[lyr["options"]["layerName"]].addData(features);
-          }
-          })
-        }
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_SnagaMW = document.createElement("div");
-            div_SnagaMW.id = "div_SnagaMW";
-            div_SnagaMW.className = "slider";
-            document.getElementById("menu").appendChild(div_SnagaMW);
-            var lab_SnagaMW = document.createElement('div');
-            lab_SnagaMW.innerHTML  = 'Snaga [MW]: <span id="val_SnagaMW"></span>';
-            lab_SnagaMW.className = 'filterlabel';
-            document.getElementById("menu").appendChild(lab_SnagaMW);
-            var reset_SnagaMW = document.createElement('div');
-            reset_SnagaMW.innerHTML = 'clear filter';
-            reset_SnagaMW.className = 'filterlabel';
-            lab_SnagaMW.className = 'filterlabel';
-            reset_SnagaMW.onclick = function() {
-                sel_SnagaMW.noUiSlider.reset();
-            };
-            document.getElementById("menu").appendChild(reset_SnagaMW);
-            var sel_SnagaMW = document.getElementById('div_SnagaMW');
-            noUiSlider.create(sel_SnagaMW, {
-                connect: true,
-                start: [42, 854],
-                step: 1,
-                format: wNumb({
-                    decimals: 0,
-                    }),
-                range: {
-                min: 42,
-                max: 854
-                }
-            });
-            sel_SnagaMW.noUiSlider.on('update', function (values) {
-            filterVals =[];
-            for (value in values){
-            filterVals.push(parseInt(value))
-            }
-            val_SnagaMW = document.getElementById('val_SnagaMW');
-            val_SnagaMW.innerHTML = values.join(' - ');
-                filterFunc()
-            });
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_category = document.createElement('div');
-            div_category.id = "div_category";
-            div_category.className= "filterselect";
-            document.getElementById("menu").appendChild(div_category);
-            sel_category = document.createElement('select');
-            sel_category.multiple = true;
-            sel_category.size = 4;
-            sel_category.id = "sel_category";
-            var category_options_str = "<option value='' unselected></option>";
-            sel_category.onchange = function(){filterFunc()};
-            category_options_str  += '<option value="NULL">NULL</option>';
-            category_options_str  += '<option value="110kV">110kV</option>';
-            category_options_str  += '<option value="220kV">220kV</option>';
-            category_options_str  += '<option value="400kV">400kV</option>';
-            sel_category.innerHTML = category_options_str;
-            div_category.appendChild(sel_category);
-            var lab_category = document.createElement('div');
-            lab_category.innerHTML = 'category';
-            lab_category.className = 'filterlabel';
-            div_category.appendChild(lab_category);
-            var reset_category = document.createElement('div');
-            reset_category.innerHTML = 'clear filter';
-            reset_category.className = 'filterlabel';
-            reset_category.onclick = function() {
-                var options = document.getElementById("sel_category").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_category.appendChild(reset_category);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Status = document.createElement('div');
-            div_Status.id = "div_Status";
-            div_Status.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Status);
-            sel_Status = document.createElement('select');
-            sel_Status.multiple = true;
-            sel_Status.size = 8;
-            sel_Status.id = "sel_Status";
-            var Status_options_str = "<option value='' unselected></option>";
-            sel_Status.onchange = function(){filterFunc()};
-            Status_options_str  += '<option value="Early development">Early development</option>';
-            Status_options_str  += '<option value="Građevinska dozvola">Građevinska dozvola</option>';
-            Status_options_str  += '<option value="Izgradnja">Izgradnja</option>';
-            Status_options_str  += '<option value="Izrada PDR-a">Izrada PDR-a</option>';
-            Status_options_str  += '<option value="JU PDR">JU PDR</option>';
-            Status_options_str  += '<option value="RJU PDR">RJU PDR</option>';
-            Status_options_str  += '<option value="U pogonu">U pogonu</option>';
-            Status_options_str  += '<option value="Usvojen PDR">Usvojen PDR</option>';
-            sel_Status.innerHTML = Status_options_str;
-            div_Status.appendChild(sel_Status);
-            var lab_Status = document.createElement('div');
-            lab_Status.innerHTML = 'Status';
-            lab_Status.className = 'filterlabel';
-            div_Status.appendChild(lab_Status);
-            var reset_Status = document.createElement('div');
-            reset_Status.innerHTML = 'clear filter';
-            reset_Status.className = 'filterlabel';
-            reset_Status.onclick = function() {
-                var options = document.getElementById("sel_Status").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Status.appendChild(reset_Status);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Investitor = document.createElement('div');
-            div_Investitor.id = "div_Investitor";
-            div_Investitor.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Investitor);
-            sel_Investitor = document.createElement('select');
-            sel_Investitor.multiple = true;
-            sel_Investitor.size = 10;
-            sel_Investitor.id = "sel_Investitor";
-            var Investitor_options_str = "<option value='' unselected></option>";
-            sel_Investitor.onchange = function(){filterFunc()};
-            Investitor_options_str  += '<option value="Akuo Energy">Akuo Energy</option>';
-            Investitor_options_str  += '<option value="CWP">CWP</option>';
-            Investitor_options_str  += '<option value="EPS">EPS</option>';
-            Investitor_options_str  += '<option value="Elicio Wind">Elicio Wind</option>';
-            Investitor_options_str  += '<option value="Enlight">Enlight</option>';
-            Investitor_options_str  += '<option value="Fintel">Fintel</option>';
-            Investitor_options_str  += '<option value="Ivicom">Ivicom</option>';
-            Investitor_options_str  += '<option value="Masdar">Masdar</option>';
-            Investitor_options_str  += '<option value="Matrix">Matrix</option>';
-            Investitor_options_str  += '<option value="NES">NES</option>';
-            Investitor_options_str  += '<option value="NIS">NIS</option>';
-            Investitor_options_str  += '<option value="Nikola Petrović">Nikola Petrović</option>';
-            Investitor_options_str  += '<option value="SMB">SMB</option>';
-            Investitor_options_str  += '<option value="WPP">WPP</option>';
-            Investitor_options_str  += '<option value="WPP Wind">WPP Wind</option>';
-            Investitor_options_str  += '<option value="WV-International">WV-International</option>';
-            Investitor_options_str  += '<option value="WV-International NBT">WV-International NBT</option>';
-            Investitor_options_str  += '<option value="Wellbury">Wellbury</option>';
-            Investitor_options_str  += '<option value="WindFlow">WindFlow</option>';
-            Investitor_options_str  += '<option value="Windflow">Windflow</option>';
-            sel_Investitor.innerHTML = Investitor_options_str;
-            div_Investitor.appendChild(sel_Investitor);
-            var lab_Investitor = document.createElement('div');
-            lab_Investitor.innerHTML = 'Investitor';
-            lab_Investitor.className = 'filterlabel';
-            div_Investitor.appendChild(lab_Investitor);
-            var reset_Investitor = document.createElement('div');
-            reset_Investitor.innerHTML = 'clear filter';
-            reset_Investitor.className = 'filterlabel';
-            reset_Investitor.onclick = function() {
-                var options = document.getElementById("sel_Investitor").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Investitor.appendChild(reset_Investitor);
+        map.addControl(new L.Control.Search({
+            layer: layer_Konkurencija_vetar_3,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Name'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
